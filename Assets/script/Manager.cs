@@ -10,7 +10,7 @@ public class Manager : MonoBehaviour
     public int level = 0;
     public int is_exit = 0;
     public GameObject []fordest;
-   
+    public Dictionary<int, GameObject> MapDic = new Dictionary<int, GameObject>();
     public GameObject firstdest;
     public GameObject spawnpoint;
     private void Awake()

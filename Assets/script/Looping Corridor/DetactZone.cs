@@ -16,6 +16,7 @@ public class DetactZone : MonoBehaviour
     public TextMeshPro level;
     public bool istrue = false;
     public bool walked = false;
+    
     void Start()
     {
         
@@ -30,22 +31,15 @@ public class DetactZone : MonoBehaviour
         {
             return;
         }
-       
-       
+         
         if (Manager.Instance.is_exit == 0)
-        {
-            
-            
+        {                       
             foreach (GameObject scene in Manager.Instance.fordest )
-            {
-                
-               
+            {                             
                     if (scene != transform.parent.gameObject)
                 {
                     
-                    Destroy(scene);
-                    
-
+                    Destroy(scene);               
                 }
                 //else
                 //{
@@ -61,9 +55,6 @@ public class DetactZone : MonoBehaviour
             //    //    Destroy(Manager.Instance.fordest1);
             //    //}
             //}
-
-
-
             Manager.Instance.is_exit = 1;
             Debug.Log("go in");
             level.gameObject.SetActive(false);
@@ -84,13 +75,7 @@ public class DetactZone : MonoBehaviour
                 walked = true;
                 if (istrue == true)
                 {
-
-
                     Manager.Instance.level += 1;
-
-
-
-
                 }
                 else
                 {
@@ -123,23 +108,32 @@ public class DetactZone : MonoBehaviour
         switch (rt)
         {
             case 0:
-                name = "map";
+                name = "1";
                 // 執行生成直路的代碼
                 break;
 
             case 1:
-                name = "map error";
+                name = "2";
                 break;
 
-            case 2:
-                name = "map error";
-                break;
+            //case 2:
+            //    name = "map error1";
+            //    break;
         }
-        if (Manager.Instance.level == 0) { name = "map"; }
+        foreach (int a in Manager.Instance.MapDic.Keys)
+        {
+            if (a == rt)
+            {
+                Manager.Instance.fordest[1] = Instantiate(Manager.Instance.MapDic[rt]
+               , spawnpoint.transform.position, spawnpoint.transform.rotation);
+                Debug.Log("go out");
+            }
+        }
+        //if (Manager.Instance.level == 0) { name = "map"; }
 
 
-        Manager.Instance.fordest[1] = Instantiate(Resources.Load("prefeb/" + name).
-            GameObject(), spawnpoint.transform.position, spawnpoint.transform.rotation);
-        Debug.Log("go out");
+        //Manager.Instance.fordest[1] = Instantiate(Resources.Load("prefeb/" + name).
+        //    GameObject(), spawnpoint.transform.position, spawnpoint.transform.rotation);
+        //Debug.Log("go out");
     }
 }
