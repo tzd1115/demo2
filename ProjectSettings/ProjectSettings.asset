@@ -948,11 +948,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: b57bd78d-77e0-4d7f-91b7-672da9138fee
+  cloudProjectId: ed7adb3b-3174-444b-9eca-1e138e604a5f
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: demo2
-  organizationId: tanzd
+  organizationId: welltzd
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
