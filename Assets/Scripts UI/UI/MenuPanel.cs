@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MenuPanel : UIPanelBase
 {
+    public GameObject settingPanel;
     //開始遊戲按鈕事件
     public void OnClick_StartGame()
     {
@@ -15,12 +16,19 @@ public class MenuPanel : UIPanelBase
     public void OnClick_Options()
     {
         //TODO: 打開遊戲設定面板
-        Debug.Log("按下遊戲設定按鈕");
+        this.Hide();
+        settingPanel.GetComponent<UIPanelBase>().Show();
     }
 
     //結束遊戲按鈕事件
     public void OnClick_QuitGame()
     {
         Application.Quit();
+    }
+    public void OnClick_back()
+    {
+        this.Show();
+        settingPanel.GetComponent<UIPanelBase>().Hide();
+        
     }
 }
