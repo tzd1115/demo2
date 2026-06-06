@@ -101,39 +101,39 @@ public class DetactZone : MonoBehaviour
         }
 
 
-        int rt = UnityEngine.Random.Range(0, 3);
+        int rt = UnityEngine.Random.Range(0, 4);
 
         string name = null;
         
         switch (rt)
         {
             case 0:
-                name = "1";
+                name = "map";
                 // 執行生成直路的代碼
                 break;
 
             case 1:
-                name = "2";
+                name = "map error1";
                 break;
 
-            //case 2:
-            //    name = "map error1";
-            //    break;
+            case 2:
+                name = "map error1";
+                break;
         }
-        foreach (int a in Manager.Instance.MapDic.Keys)
-        {
-            if (a == rt)
-            {
-                Manager.Instance.fordest[1] = Instantiate(Manager.Instance.MapDic[rt]
-               , spawnpoint.transform.position, spawnpoint.transform.rotation);
-                Debug.Log("go out");
-            }
-        }
-        //if (Manager.Instance.level == 0) { name = "map"; }
+        //foreach (int a in Manager.Instance.MapDic.Keys)
+        //{
+        //    if (a == rt)
+        //    {
+        //        Manager.Instance.fordest[1] = Instantiate(Manager.Instance.MapDic[rt]
+        //       , spawnpoint.transform.position, spawnpoint.transform.rotation);
+        //        Debug.Log("go out");
+        //    }
+        //}
+        if (Manager.Instance.level == 0) { name = "map"; }
 
 
-        //Manager.Instance.fordest[1] = Instantiate(Resources.Load("prefeb/" + name).
-        //    GameObject(), spawnpoint.transform.position, spawnpoint.transform.rotation);
-        //Debug.Log("go out");
+            Manager.Instance.fordest[1] = Instantiate(Resources.Load("prefeb/" + name).
+            GameObject(), spawnpoint.transform.position, spawnpoint.transform.rotation);
+            Debug.Log("go out");
     }
 }

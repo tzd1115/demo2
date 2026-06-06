@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Manager : MonoBehaviour
 {
@@ -10,9 +12,12 @@ public class Manager : MonoBehaviour
     public int level = 0;
     public int is_exit = 0;
     public GameObject []fordest;
-    public Dictionary<int, GameObject> MapDic = new Dictionary<int, GameObject>();
+    
     public GameObject firstdest;
     public GameObject spawnpoint;
+    
+
+    public GameObject player;
     private void Awake()
     {
 
@@ -43,5 +48,26 @@ public class Manager : MonoBehaviour
     {
         
     }
+   public IEnumerator WaitForPress(string key, float dur, System.Action Pressed)
+    {
+        float timer = 0f;
+
+        while (dur==0f?true: timer <dur)
+        {
+            if (dur != 0f) { timer += Time.deltaTime;}
+
+            if (Input.GetKeyDown(key)) 
+            {
+                Pressed?.Invoke();
+
+                break;
+            }
+                    
+             yield return null;
+        }
+
+    }
     
+
+
 }
