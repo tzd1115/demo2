@@ -101,7 +101,7 @@ public class DetactZone : MonoBehaviour
         }
 
 
-        int rt = UnityEngine.Random.Range(0, 4);
+        int rt = UnityEngine.Random.Range(0, 3);
 
         string name = null;
         
@@ -113,11 +113,11 @@ public class DetactZone : MonoBehaviour
                 break;
 
             case 1:
-                name = "map error1";
+                name = "map error";
                 break;
 
             case 2:
-                name = "map error1";
+                name = "map error";
                 break;
         }
         //foreach (int a in Manager.Instance.MapDic.Keys)

@@ -43,7 +43,7 @@ public class UIManager : MonoBehaviour
     public MenuPanel menuPanel;
     public LoadingPanel loadingPanel;
     public FinishPanel finishPanel;
-
+    
     public void Init()
     {
         //½T«OUIManagerª«¥ó¦b³õ´º¤Á´«®É¤£³Q¾P·´

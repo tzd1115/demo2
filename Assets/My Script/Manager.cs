@@ -20,7 +20,6 @@ public class Manager : MonoBehaviour
     public GameObject player;
     private void Awake()
     {
-
         //fordest = new GameObject[3];
         // 確保場景中只有一個 GameManager
         if (Instance == null)
@@ -43,6 +42,7 @@ public class Manager : MonoBehaviour
 
                 );
         }
+        
     }
     void Start()
     {
@@ -58,13 +58,19 @@ public class Manager : MonoBehaviour
 
             if (Input.GetKeyDown(key)) 
             {
+                yield return null;
                 Pressed?.Invoke();
 
-                break;
+                
+                yield break;
+
             }
                     
              yield return null;
+          
+
         }
+        
 
     }
     

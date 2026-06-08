@@ -13,4 +13,8 @@ public class UIPanelBase : MonoBehaviour
     {
         this.gameObject.SetActive(false);
     }
+    void Update()
+    {
+       
+    }
 }

@@ -27,8 +27,10 @@ public class MenuPanel : UIPanelBase
     }
     public void OnClick_back()
     {
-        this.Show();
         settingPanel.GetComponent<UIPanelBase>().Hide();
+        this.Show();
         
+        PlayerPrefs.Save();
+
     }
 }

@@ -27,6 +27,7 @@ public class CameraShift : MonoBehaviour
     {
         if (obj.tag !="Player") { return; }
         StopCoroutine(coroutine);
+        
         panel.gameObject.SetActive(false);
     }
     
@@ -44,10 +45,11 @@ public class CameraShift : MonoBehaviour
 
             Manager.Instance.player.GetComponentInChildren<Camera>().
             transform.rotation = transform.rotation;
-
+            
             panel.GetComponent<PanelEdit>().EditWord("點擊R退出");
+            StopCoroutine(coroutine);
 
-            StartCoroutine(Manager.Instance.WaitForPress("r", 0f, Pressed: () =>
+            coroutine = StartCoroutine(Manager.Instance.WaitForPress("f", 0f, Pressed: () =>
             {
              
                 Manager.Instance.player.GetComponentInChildren<Camera>().
@@ -57,10 +59,12 @@ public class CameraShift : MonoBehaviour
                 transform.localPosition = dfposition;
 
                 Manager.Instance.player.GetComponent<PlayerController>().enabled = true;
-                
+                StopCoroutine(coroutine);
+                Debug.Log("1");
                 PressToView();
+
             }   
-                )
+            )
             );
         }
         )

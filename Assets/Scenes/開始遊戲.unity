@@ -1775,7 +1775,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 149254392}
   IF: {fileID: 1300784486}
-  setValue: 
+  setValueName: shakesetting
+  defValue: 0.05
+  minValue: 0
+  maxValue: 0.1
 --- !u!114 &1981844304
 MonoBehaviour:
   m_ObjectHideFlags: 0

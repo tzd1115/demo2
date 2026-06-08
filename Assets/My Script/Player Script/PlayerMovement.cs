@@ -16,8 +16,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("鏡頭晃動 (Head Bobbing)")]
     public float bobFrequency = 2.0f;       // 晃動頻率 (與速度相關)
-    public float bobHorizontalAmplitude = 0.05f; // 水平晃幅度
-    public float bobVerticalAmplitude = 0.05f;   // 垂直晃幅度
+    public float bobHorizontalAmplitude; // 水平晃幅度0.05f;
+    public float bobVerticalAmplitude;  // 垂直晃幅度 0.05f; 
     [Range(0, 1)] public float headBobSmoothing = 0.1f; // 平滑度
 
     // 內部變量
@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        bobHorizontalAmplitude = PlayerPrefs.GetFloat("shakesetting",0.05f);
+        bobVerticalAmplitude = bobHorizontalAmplitude; 
         controller = GetComponent<CharacterController>();
 
         // 記錄相機在角色內的初始位置
@@ -37,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
         // 鎖定滑鼠
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.visible = true;
     }
 
     void Update()
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviour
 
         // 4. 處理鏡頭晃動
         ApplyHeadBob();
+       
     }
 
     void HandleRotation()
@@ -118,5 +121,10 @@ public class PlayerController : MonoBehaviour
         float newY = cameraDefaultPos.y + Mathf.Sin(bobTimer) * bobVerticalAmplitude;
 
         cameraTransform.localPosition = new Vector3(newX, newY, cameraDefaultPos.z);
+    }
+    public void applySetting()
+    {
+        bobHorizontalAmplitude = PlayerPrefs.GetFloat("shakesetting", 0.05f);
+        bobVerticalAmplitude = bobHorizontalAmplitude;
     }
 }
