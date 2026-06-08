@@ -7,11 +7,9 @@ public class CameraShake : SettingAdjust
     // Start is called before the first frame update
     void Start()
     {
-
+       
     }
-   void OnValueChange(float v)
-    {
-
-    }
+    
+   
   
 }

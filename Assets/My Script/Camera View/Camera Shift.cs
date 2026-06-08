@@ -49,13 +49,14 @@ public class CameraShift : MonoBehaviour
 
             StartCoroutine(Manager.Instance.WaitForPress("r", 0f, Pressed: () =>
             {
-                Manager.Instance.player.GetComponent<PlayerController>().enabled = true;
+             
                 Manager.Instance.player.GetComponentInChildren<Camera>().
-                transform.rotation = Quaternion.identity;
+                transform.localRotation= Quaternion.identity;
 
                 Manager.Instance.player.GetComponentInChildren<Camera>().
-                transform.position = dfposition;
-              
+                transform.localPosition = dfposition;
+
+                Manager.Instance.player.GetComponent<PlayerController>().enabled = true;
                 
                 PressToView();
             }   
