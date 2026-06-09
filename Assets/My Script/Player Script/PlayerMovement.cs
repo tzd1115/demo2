@@ -29,8 +29,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        bobHorizontalAmplitude = PlayerPrefs.GetFloat("shakesetting",0.05f);
-        bobVerticalAmplitude = bobHorizontalAmplitude; 
+        applySetting();
+
         controller = GetComponent<CharacterController>();
 
         // 記錄相機在角色內的初始位置
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
         // 鎖定滑鼠
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = true;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -87,15 +87,15 @@ public class PlayerController : MonoBehaviour
         controller.Move(move * currentSpeed * Time.deltaTime);
 
         // 跳躍控制
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
+        //if (Input.GetButtonDown("Jump") && isGrounded)
+        //{
+        //    velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        //}
 
-        // 應用重力
+        //// 應用重力
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-        
+
     }
 
     void ApplyHeadBob()
@@ -126,5 +126,6 @@ public class PlayerController : MonoBehaviour
     {
         bobHorizontalAmplitude = PlayerPrefs.GetFloat("shakesetting", 0.05f);
         bobVerticalAmplitude = bobHorizontalAmplitude;
+        mouseSensitivity = PlayerPrefs.GetFloat("mousesensitive", 500f);
     }
 }

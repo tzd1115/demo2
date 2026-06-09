@@ -7,8 +7,8 @@ public class CameraShift : MonoBehaviour
 {
     GameObject panel;
     Coroutine coroutine;
-    Vector3 dfposition = new Vector3(0,1,0);
-
+    Vector3 dfposition = new Vector3(0,1f,0.1f);
+    bool viewed = false;
     private void Start()
     {
 
@@ -30,30 +30,43 @@ public class CameraShift : MonoBehaviour
         
         panel.gameObject.SetActive(false);
     }
-    
+
     void PressToView()
     {
-        panel.GetComponent<PanelEdit>().EditWord("點擊F查看");
-        panel.SetActive(true);
-
-        coroutine = StartCoroutine(Manager.Instance.WaitForPress("f", 0f, Pressed: () =>
+        if (!viewed)
         {
-            Manager.Instance.player.GetComponent<PlayerController>().enabled = false;
-
-            Manager.Instance.player.GetComponentInChildren<Camera>().
-            transform.position = transform.position;
-
-            Manager.Instance.player.GetComponentInChildren<Camera>().
-            transform.rotation = transform.rotation;
-            
-            panel.GetComponent<PanelEdit>().EditWord("點擊R退出");
-            StopCoroutine(coroutine);
+            panel.GetComponent<PanelEdit>().EditWord("點擊F查看");
+            panel.SetActive(true);
 
             coroutine = StartCoroutine(Manager.Instance.WaitForPress("f", 0f, Pressed: () =>
             {
-             
+                Manager.Instance.player.GetComponent<PlayerController>().enabled = false;
+
                 Manager.Instance.player.GetComponentInChildren<Camera>().
-                transform.localRotation= Quaternion.identity;
+                transform.position = transform.position;
+
+                Manager.Instance.player.GetComponentInChildren<Camera>().
+                transform.rotation = transform.rotation;
+
+               
+                panel.GetComponent<PanelEdit>().EditWord("點擊F退出");
+                Manager.Instance.player.GetComponent<Cameraresistence>().enabled = true;
+                StopCoroutine(coroutine);
+
+                viewed = !viewed;
+                PressToView();
+            }
+            )
+            );
+            
+        }
+        else
+        {
+            coroutine = StartCoroutine(Manager.Instance.WaitForPress("f", 0f, Pressed: () =>
+            {
+                Manager.Instance.player.GetComponent<Cameraresistence>().enabled = false;
+                Manager.Instance.player.GetComponentInChildren<Camera>().
+                transform.localRotation = Quaternion.identity;
 
                 Manager.Instance.player.GetComponentInChildren<Camera>().
                 transform.localPosition = dfposition;
@@ -61,14 +74,13 @@ public class CameraShift : MonoBehaviour
                 Manager.Instance.player.GetComponent<PlayerController>().enabled = true;
                 StopCoroutine(coroutine);
                 Debug.Log("1");
-                PressToView();
 
-            }   
+                viewed = !viewed;
+                PressToView();
+            }
             )
             );
+            
         }
-        )
-        );
-        
-    }  
+    }
 }
