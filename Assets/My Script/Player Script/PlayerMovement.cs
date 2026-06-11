@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         {
             velocity.y = -2f;
         }
-
+        if (Cursor.visible) { return; }
         // 2. 處理旋轉 (視角控制)
         HandleRotation();
 
