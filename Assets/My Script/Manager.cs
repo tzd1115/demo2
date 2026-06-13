@@ -50,6 +50,7 @@ public class Manager : MonoBehaviour
     }
    public IEnumerator WaitForPress(string key, float dur, System.Action Pressed)
     {
+        
         float timer = 0f;
 
         while (dur==0f?true: timer <dur)
@@ -70,10 +71,17 @@ public class Manager : MonoBehaviour
           
 
         }
-        
+
 
     }
-    
+   public IEnumerator CountDownAndAction(float second ,System.Action action){
+
+        yield return new WaitForSecondsRealtime(second);
+
+        action?.Invoke();
+
+        yield break;
+    } 
 
 
 }
