@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AiAgent : MonoBehaviour
 {
@@ -8,15 +10,20 @@ public class AiAgent : MonoBehaviour
     public int currentPointIndex = 0;
     private Rigidbody rb;
     public bool loop = false;
-
+    public bool stop = false;
+    Vector3 dfposition;
+    public Transform point;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        Vector3 dfposition = Manager.Instance.player.GetComponentInChildren<Camera>().
+            transform.localPosition;
     }
 
     // ⚠️ 只要涉及 Rigidbody 物理移動，程式碼一定要寫在 FixedUpdate 裡！
     void FixedUpdate()
     {
+        if (stop) { return; }
         if (waypoints.Length == 0 ||currentPointIndex >= waypoints.Length) return;
 
         Vector3 targetPosition = waypoints[currentPointIndex].position + new Vector3(0,transform.position.y,0);
@@ -47,5 +54,47 @@ public class AiAgent : MonoBehaviour
         }
 
         
+    }
+    public void Stop()
+    {
+        stop=true;
+    }
+    public void StopStop()
+    {
+        stop = false;
+    }
+
+    private void OnTriggerEnter(Collider oth)
+    {
+        if (!oth.transform.root.CompareTag("Player")) { return; }
+
+        OnYourFace();
+    }
+    void OnYourFace()
+    {
+        Manager.Instance.player.GetComponent<PlayerController>().enabled = false;
+
+        Manager.Instance.player.GetComponentInChildren<Camera>().
+        transform.position = point.position;
+
+        Manager.Instance.player.GetComponentInChildren<Camera>().
+        transform.rotation = point.rotation;
+        Manager.Instance.player.GetComponentInChildren<PlayerController>().HideMesh();
+        Stop();
+        StartCoroutine(Manager.Instance.CountDownAndAction(3f, action: () =>
+        {
+
+            Manager.Instance.player.GetComponentInChildren<Camera>().
+            transform.localRotation = Quaternion.identity;
+
+            Manager.Instance.player.GetComponentInChildren<Camera>().
+            transform.localPosition = dfposition;
+
+            Manager.Instance.player.GetComponent<PlayerController>().enabled = true;
+            Manager.Instance.player.GetComponentInChildren<PlayerController>().ShowMesh();
+            StopStop();
+
+        }));
+
     }
 }

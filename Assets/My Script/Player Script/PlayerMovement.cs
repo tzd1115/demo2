@@ -128,4 +128,12 @@ public class PlayerController : MonoBehaviour
         bobVerticalAmplitude = bobHorizontalAmplitude;
         mouseSensitivity = PlayerPrefs.GetFloat("mousesensitive", 500f);
     }
+    public void HideMesh()
+    {
+        GetComponent<MeshRenderer>().enabled = false;
+    }
+    public void ShowMesh()
+    {
+        GetComponent<MeshRenderer>().enabled = true ;
+    }
 }

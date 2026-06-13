@@ -9,30 +9,31 @@ public class CameraShift : MonoBehaviour
     Coroutine coroutine;
     Vector3 dfposition = new Vector3(0,1f,0.1f);
     bool viewed = false;
-   public bool needtoPress = true;
+  
     private void Start()
     {
-
+        Vector3 dfposition = Manager.Instance.player.GetComponentInChildren<Camera>().
+            transform.localPosition;
         panel = UISystem.UIinstance.canvas.transform.Find("tips").gameObject;
     }
     private void OnTriggerEnter(Collider obj)
     {
         if (obj.tag != "Player") { return; }
-        if (needtoPress)
-        {
+       
             PressToView();
-        }
-        OnYourFace();
         
 
+       
 
     }
     private void OnTriggerExit(Collider obj)
     {
+
         if (obj.tag !="Player") { return; }
         StopCoroutine(coroutine);
         StopAllCoroutines();
         panel.gameObject.SetActive(false);
+
     }
 
     void PressToView()
@@ -87,31 +88,7 @@ public class CameraShift : MonoBehaviour
             
         }
     }
-    void OnYourFace()
-    {
-        Manager.Instance.player.GetComponent<PlayerController>().enabled = false;
-
-        Manager.Instance.player.GetComponentInChildren<Camera>().
-        transform.position = transform.position;
-
-        Manager.Instance.player.GetComponentInChildren<Camera>().
-        transform.rotation = transform.rotation;
-
-        StartCoroutine(Manager.Instance.CountDownAndAction(3f, action:()=>
-        {
-            
-            Manager.Instance.player.GetComponentInChildren<Camera>().
-            transform.localRotation = Quaternion.identity;
-
-            Manager.Instance.player.GetComponentInChildren<Camera>().
-            transform.localPosition = dfposition;
-
-            Manager.Instance.player.GetComponent<PlayerController>().enabled = true;
-            
-
-        }));
-
-    }
+    
 
 
 }
