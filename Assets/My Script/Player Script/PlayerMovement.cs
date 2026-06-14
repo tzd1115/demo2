@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-
+    
     void Update()
     {
         // 1. 環境檢查
@@ -135,5 +135,9 @@ public class PlayerController : MonoBehaviour
     public void ShowMesh()
     {
         GetComponent<MeshRenderer>().enabled = true ;
+    }
+    public void die()
+    {
+
     }
 }

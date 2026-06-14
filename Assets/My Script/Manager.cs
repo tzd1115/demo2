@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -16,7 +17,7 @@ public class Manager : MonoBehaviour
     public GameObject firstdest;
     public GameObject spawnpoint;
     
-
+    public Action action;
     public GameObject player;
     private void Awake()
     {
@@ -34,13 +35,22 @@ public class Manager : MonoBehaviour
         }
         if (level == 0)
         {
+            fordest[0] = Instantiate(
+
+                Resources.Load("prefeb/noting map").GameObject(),
+                new Vector3(),
+                Quaternion.identity
+
+            );
+            action?.Invoke();
+
             fordest[1] = Instantiate(
 
-                Resources.Load("prefeb/map").GameObject(),
+                Resources.Load("prefeb/noting map").GameObject(),
                 spawnpoint.transform.position,
                 spawnpoint.transform.rotation
 
-                );
+            );
         }
         
     }

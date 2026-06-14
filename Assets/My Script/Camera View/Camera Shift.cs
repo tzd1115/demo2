@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 //using Unity.VisualScripting;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class CameraShift : MonoBehaviour
     Coroutine coroutine;
     Vector3 dfposition = new Vector3(0,1f,0.1f);
     bool viewed = false;
-  
+    public Action action;
     private void Start()
     {
         Vector3 dfposition = Manager.Instance.player.GetComponentInChildren<Camera>().
@@ -20,20 +21,14 @@ public class CameraShift : MonoBehaviour
     {
         if (obj.tag != "Player") { return; }
        
-            PressToView();
-        
-
-       
-
+            PressToView();       
     }
     private void OnTriggerExit(Collider obj)
     {
-
         if (obj.tag !="Player") { return; }
         StopCoroutine(coroutine);
         StopAllCoroutines();
         panel.gameObject.SetActive(false);
-
     }
 
     void PressToView()
@@ -42,7 +37,6 @@ public class CameraShift : MonoBehaviour
         {
             panel.GetComponent<PanelEdit>().EditWord("點擊F查看");
             panel.SetActive(true);
-
             coroutine = StartCoroutine(Manager.Instance.WaitForPress("f", 0f, Pressed: () =>
             {
                 Manager.Instance.player.GetComponent<PlayerController>().enabled = false;
@@ -52,7 +46,7 @@ public class CameraShift : MonoBehaviour
 
                 Manager.Instance.player.GetComponentInChildren<Camera>().
                 transform.rotation = transform.rotation;
-
+                action?.Invoke();
                
                 panel.GetComponent<PanelEdit>().EditWord("點擊F退出");
                 Manager.Instance.player.GetComponent<Cameraresistence>().enabled = true;
@@ -62,8 +56,7 @@ public class CameraShift : MonoBehaviour
                 PressToView();
             }
             )
-            );
-            
+            );          
         }
         else
         {
@@ -84,11 +77,7 @@ public class CameraShift : MonoBehaviour
                 PressToView();
             }
             )
-            );
-            
+            );         
         }
     }
-    
-
-
 }
