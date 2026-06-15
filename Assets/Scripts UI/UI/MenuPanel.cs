@@ -33,4 +33,5 @@ public class MenuPanel : UIPanelBase
         PlayerPrefs.Save();
 
     }
+    
 }

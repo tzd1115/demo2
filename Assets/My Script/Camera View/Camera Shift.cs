@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+
 //using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,8 +17,9 @@ public class CameraShift : MonoBehaviour
     {
         Vector3 dfposition = Manager.Instance.player.GetComponentInChildren<Camera>().
             transform.localPosition;
-        panel = UISystem.UIinstance.canvas.transform.Find("tips").gameObject;
+        panel = UIManager.Instance.tips;
     }
+    
     private void OnTriggerEnter(Collider obj)
     {
         if (obj.tag != "Player") { return; }

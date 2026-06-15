@@ -27,32 +27,7 @@ public class UISystem : MonoBehaviour
        
         
     }
-    private void Update()
-    {
-        WaitForPause();
-
-    }
-    void WaitForPause()
-    {
-         if (!Input.GetKeyDown("q")) return;
-
-         if (!pausePanel.activeInHierarchy)
-         {
-
-             Cursor.visible = true;
-             pausePanel.SetActive(true);
-             Cursor.lockState = CursorLockMode.None;
-                
-         }
-         else
-         {      
-             Manager.Instance.player.GetComponent<PlayerController>().applySetting();
-             pausePanel.SetActive(false);
-             Cursor.lockState = CursorLockMode.Locked;
-             Cursor.visible = false;           
-
-         }
-    }
+    
         
         
 }

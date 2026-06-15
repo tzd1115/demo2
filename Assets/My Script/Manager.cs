@@ -10,7 +10,18 @@ public class Manager : MonoBehaviour
 {
     // Start is called before the first frame update
     public static Manager Instance { get; private set; }
-    public int level = 0;
+    private int _level = 0;
+    public int level
+    {
+        get => _level;
+        set
+        {
+            _level = value;
+            // 只要有人改了 level 的值，大喇叭立刻广播出去！
+            OnlvChange?.Invoke(_level);
+        }
+    }
+    public Action <int>OnlvChange;
     public int is_exit = 0;
     public GameObject []fordest;
     
@@ -21,6 +32,7 @@ public class Manager : MonoBehaviour
     public GameObject player;
     private void Awake()
     {
+        level = 0;
         //fordest = new GameObject[3];
         // 確保場景中只有一個 GameManager
         if (Instance == null)
@@ -35,14 +47,14 @@ public class Manager : MonoBehaviour
         }
         if (level == 0)
         {
-            fordest[0] = Instantiate(
+            //fordest[0] = Instantiate(
 
-                Resources.Load("prefeb/noting map").GameObject(),
-                new Vector3(),
-                Quaternion.identity
+            //    Resources.Load("prefeb/noting map").GameObject(),
+            //    new Vector3(),
+            //    Quaternion.identity
 
-            );
-            action?.Invoke();
+            //);
+            //action?.Invoke();
 
             fordest[1] = Instantiate(
 

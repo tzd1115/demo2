@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml.Schema;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 using UnityEngine.UIElements.Experimental;
 using UnityEngine.VFX;
 
@@ -31,6 +33,7 @@ public class DetactZone : MonoBehaviour
         //Debug.Log(other.name);
         //Destroy(level.gameObject);
         if (other.tag != "Player") return;
+       
 
         if (Manager.Instance.is_exit == 0)
         {
@@ -42,8 +45,29 @@ public class DetactZone : MonoBehaviour
             if (!GoOut()) return; 
         }
 
-        generate();
+        _=generateAsync();
 
+    }
+    private void OnTriggerExit(Collider other)
+    {
+       
+        if (other.tag != "Player") return;
+        Vector3 playerForward = other.transform.forward;
+
+        // 获取空气墙面向的方向
+        Vector3 wallForward = transform.forward;
+
+        // 计算两者的夹角
+        float angle = Vector3.Angle(playerForward, wallForward);
+
+        if (angle < 90f)
+        {
+            Debug.Log("🚶 离开时，玩家面向前方，判定为【通过】");
+        }
+        else
+        {
+            Debug.Log("🔄 离开时，玩家面向后方，判定为【回头】");
+        }
     }
     void GoIn()
     {
@@ -117,10 +141,60 @@ public class DetactZone : MonoBehaviour
             case 4:
                 name = "c map";
                 break;
-        }     
+        }
         //if (Manager.Instance.level == 0) { name = "map"; }
+        
         Manager.Instance.fordest[1] = Instantiate(Resources.Load("prefeb/" + name).
         GameObject(), spawnpoint.transform.position, spawnpoint.transform.rotation);
+
+        Debug.Log("go out");
+    }
+    async Task generateAsync()
+    {
+        int rt = UnityEngine.Random.Range(0, 5);
+
+        string name = null;
+
+        switch (rt)
+        {
+            case 0:
+                name = "map";
+                // 執行生成直路的代碼
+                break;
+            case 1:
+                name = "map error";
+                break;
+
+            case 2:
+                name = "bad guy normal map";
+                break;
+
+            case 3:
+                name = "bad guy cheasing map";
+                break;
+            case 4:
+                name = "c map";
+                break;
+        }
+        //if (Manager.Instance.level == 0) { name = "map"; }
+        ResourceRequest loadrequestmap = Resources.LoadAsync<GameObject>("prefeb/" + name);
+
+        while (!loadrequestmap.isDone)
+        {
+            await Task.Yield();
+        }
+
+        GameObject go = loadrequestmap.asset as GameObject;
+
+        var instantiateOperation = InstantiateAsync(go
+        , spawnpoint.transform.position, spawnpoint.transform.rotation);
+        
+        while (!instantiateOperation.isDone)
+        {
+            await Task.Yield();
+        }
+        Manager.Instance.fordest[1] = instantiateOperation.Result[0];
+
         Debug.Log("go out");
     }
 

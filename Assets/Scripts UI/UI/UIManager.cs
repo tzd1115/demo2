@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
 {
     //³æ¨Ò¼Ò¦¡ (Singleton Pattern)
     private static UIManager mInstance = null;
+   
     public static UIManager Instance
     {
         get
@@ -43,7 +44,8 @@ public class UIManager : MonoBehaviour
     public MenuPanel menuPanel;
     public LoadingPanel loadingPanel;
     public FinishPanel finishPanel;
-    
+    public GameObject tips;
+    public GameObject settingPanel;
     public void Init()
     {
         //½T«OUIManagerª«¥ó¦b³õ´º¤Á´«®É¤£³Q¾P·´
@@ -64,5 +66,37 @@ public class UIManager : MonoBehaviour
         loadingPanel.Hide();
         finishPanel.Hide();
     }
+    void Update()
+    {
+       WaitForPause();
+    }
+    void WaitForPause()
+    {
+        if (!Input.GetKeyDown(KeyCode.Escape)) return;
+        if (settingPanel.GetComponent<UIPanelBase>().IsActive())
+        {
+            Debug.Log(2);
+            //Manager.Instance.player.GetComponent<PlayerController>().applySetting();
+            menuPanel.OnClick_back();
+            return;
+        }
+        if (!menuPanel.IsActive())
+        {
 
+            Cursor.visible = true;
+            menuPanel.Show();
+            Cursor.lockState = CursorLockMode.None;
+            Debug.Log(1);
+
+        }
+        else
+        {
+           
+           
+               Debug.Log(3);
+               menuPanel.Hide();
+               Cursor.lockState = CursorLockMode.Locked;
+               Cursor.visible = false;
+        }
+    }
 }

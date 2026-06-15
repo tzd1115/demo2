@@ -78,7 +78,7 @@ public class LoadingPanel : UIPanelBase
             }
             canvasGroup.alpha = 0f;
         }
-
+        UIManager.Instance.Init();
         this.Hide();
     }
 }
