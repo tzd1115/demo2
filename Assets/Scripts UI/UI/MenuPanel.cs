@@ -29,7 +29,7 @@ public class MenuPanel : UIPanelBase
     {
         settingPanel.GetComponent<UIPanelBase>().Hide();
         this.Show();
-        
+        if (Manager.Instance) { Manager.Instance.player.GetComponent<PlayerController>().applySetting(); }
         PlayerPrefs.Save();
 
     }

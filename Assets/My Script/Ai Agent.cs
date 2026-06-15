@@ -15,8 +15,18 @@ public class AiAgent : MonoBehaviour
     public Transform point;
     private Transform playerTransform;
     public bool linChase = false;
+    AudioSource[] sound;
+    bool touch = false;
     void Start()
     {
+
+
+        if (GetComponents<AudioSource>().Length > 0)
+        {
+            sound = GetComponents<AudioSource>();
+            sound[0].Play();
+        }
+        //if (GetComponent<AudioSource>()) GetComponent<AudioSource>().Play();
         rb = GetComponent<Rigidbody>();
         Vector3 dfposition = Manager.Instance.player.GetComponentInChildren<Camera>().
             transform.localPosition;
@@ -119,6 +129,7 @@ public class AiAgent : MonoBehaviour
     }
     void Update()
     {
+        if (stop) { return; }
         if (waypoints.Length == 0 || currentPointIndex >= waypoints.Length &&linChase)
         {
             LinearChaser();
@@ -140,10 +151,11 @@ public class AiAgent : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
         // 4. 距离判定，走廊很窄，只要距离够近就判定抓到
-        //if (Vector3.Distance(transform.position, targetPosition) <= catchDistance)
-        //{
-        //    CatchPlayer();
-        //}
+        if (Vector3.Distance(transform.position, targetPosition) <= 1f)
+        {
+            Stop();
+            // CatchPlayer();
+        }
     }
 
     private void CatchPlayer()
@@ -154,7 +166,20 @@ public class AiAgent : MonoBehaviour
         // Manager.Instance.level = 0; 
 
         // 停止脚本，防止一瞬间重复触发
-        this.enabled = false;
+        Stop();
+        if (sound!=null) { 
+            if (sound[0]) sound[0].Stop();
+            if (sound[1]) sound[1].Play();
+        }
+        
+
+        // 🚀 核心点 A：锁死物理引擎的位移和旋转（X, Y, Z 全部冻结）
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+
+        // 🚀 核心点 B（双重保险）：将其变为完全不受物理力、重力影响的“运动学”物体
+        rb.isKinematic = true;
+       
+
     }
     public void Stop()
     {
@@ -167,9 +192,12 @@ public class AiAgent : MonoBehaviour
 
     private void OnTriggerEnter(Collider oth)
     {
+        if (touch) { return; }
+        
         if (oth.gameObject.layer!=LayerMask.NameToLayer("Player")) { return; }
         Debug.Log(oth.gameObject.name);
         OnYourFace();
+        touch = true;
     }
     void OnYourFace()
     {
@@ -182,19 +210,20 @@ public class AiAgent : MonoBehaviour
         transform.rotation = point.rotation;
         Manager.Instance.player.GetComponentInChildren<PlayerController>().HideMesh();
         CatchPlayer();
-        StartCoroutine(Manager.Instance.CountDownAndAction(3f, action: () =>
+        StartCoroutine(Manager.Instance.CountDownAndAction(2f, action: () =>
         {
-
-            Manager.Instance.player.GetComponentInChildren<Camera>().
-            transform.localRotation = Quaternion.identity;
-
-            Manager.Instance.player.GetComponentInChildren<Camera>().
-            transform.localPosition = dfposition;
-
-            Manager.Instance.player.GetComponent<PlayerController>().enabled = true;
-            Manager.Instance.player.GetComponentInChildren<PlayerController>().ShowMesh();
             
+            //Manager.Instance.player.GetComponentInChildren<Camera>().
+            //transform.localRotation = Quaternion.identity;
 
+            //Manager.Instance.player.GetComponentInChildren<Camera>().
+            //transform.localPosition = dfposition;
+
+            //Manager.Instance.player.GetComponent<PlayerController>().enabled = true;
+            //Manager.Instance.player.GetComponentInChildren<PlayerController>().ShowMesh();
+
+            Manager.Instance.player.GetComponent<PlayerController>().die();
+            
         }));
 
     }

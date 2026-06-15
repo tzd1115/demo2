@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -27,8 +28,21 @@ public class PlayerController : MonoBehaviour
     private Vector3 cameraDefaultPos;
     private float bobTimer;
 
+    void Awake()
+    {
+        // 🙋‍♂️ 玩家一出生，立刻把自己登记到全局管理器里
+       
+        if (Manager.Instance != null)
+        {
+            if (!Manager.Instance.player)
+            {
+                Manager.Instance.player = this.gameObject;
+            }
+        }
+    }
     void Start()
     {
+        
         applySetting();
 
         controller = GetComponent<CharacterController>();
@@ -138,6 +152,6 @@ public class PlayerController : MonoBehaviour
     }
     public void die()
     {
-
+        UIManager.Instance.loadingPanel.LoadScene("Start");
     }
 }

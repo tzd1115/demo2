@@ -51,23 +51,23 @@ public class DetactZone : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
        
-        if (other.tag != "Player") return;
-        Vector3 playerForward = other.transform.forward;
+        //if (other.tag != "Player") return;
+        //Vector3 playerForward = other.transform.forward;
 
-        // 获取空气墙面向的方向
-        Vector3 wallForward = transform.forward;
+        //// 获取空气墙面向的方向
+        //Vector3 wallForward = transform.forward;
 
-        // 计算两者的夹角
-        float angle = Vector3.Angle(playerForward, wallForward);
+        //// 计算两者的夹角
+        //float angle = Vector3.Angle(playerForward, wallForward);
 
-        if (angle < 90f)
-        {
-            Debug.Log("🚶 离开时，玩家面向前方，判定为【通过】");
-        }
-        else
-        {
-            Debug.Log("🔄 离开时，玩家面向后方，判定为【回头】");
-        }
+        //if (angle < 90f)
+        //{
+        //    Debug.Log("🚶 离开时，玩家面向前方，判定为【通过】");
+        //}
+        //else
+        //{
+        //    Debug.Log("🔄 离开时，玩家面向后方，判定为【回头】");
+        //}
     }
     void GoIn()
     {

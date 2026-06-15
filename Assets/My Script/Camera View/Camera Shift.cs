@@ -49,6 +49,8 @@ public class CameraShift : MonoBehaviour
 
                 Manager.Instance.player.GetComponentInChildren<Camera>().
                 transform.rotation = transform.rotation;
+
+                Manager.Instance.player.GetComponent<PlayerController>().HideMesh();
                 action?.Invoke();
                
                 panel.GetComponent<PanelEdit>().EditWord("點擊F退出");
@@ -71,7 +73,7 @@ public class CameraShift : MonoBehaviour
 
                 Manager.Instance.player.GetComponentInChildren<Camera>().
                 transform.localPosition = dfposition;
-
+                Manager.Instance.player.GetComponent<PlayerController>().ShowMesh();
                 Manager.Instance.player.GetComponent<PlayerController>().enabled = true;
                 StopCoroutine(coroutine);
                 Debug.Log("1");

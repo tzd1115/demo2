@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +25,7 @@ public class UIManager : MonoBehaviour
                 {
                     GameObject obj = GameObject.Instantiate(prefab);
                     mInstance = obj.GetComponent<UIManager>();
+                   
                 }
                 else
                 {
@@ -38,6 +40,8 @@ public class UIManager : MonoBehaviour
     public const string START_SCENE = "開始遊戲";
     public const string BATTLE_SCENE = "Start";
     public const string FINISH_SCENE = "結束游戲";
+    public const string CameraShake = "shakesetting";
+    public const string MouseSensitive = "mousesensitive";
 
     //©Ò¦³UIªºª«¥ó¡A¨ä¹ê¸û¦nªº°µªk¬O¥ÎDictionary¨ÓºÞ²z
     //¦ý³oºØ¼gªk¸ûª½Æ[¡A¾A¦X·s¤â¾\Åª
@@ -46,6 +50,13 @@ public class UIManager : MonoBehaviour
     public FinishPanel finishPanel;
     public GameObject tips;
     public GameObject settingPanel;
+    
+    private void Start()
+    {
+        
+        Init();
+        if (!Manager.Instance) { menuPanel.Show(); }
+    }
     public void Init()
     {
         //½T«OUIManagerª«¥ó¦b³õ´º¤Á´«®É¤£³Q¾P·´
@@ -72,10 +83,12 @@ public class UIManager : MonoBehaviour
     }
     void WaitForPause()
     {
+        if (!Manager.Instance || Manager.Instance.player.GetComponent<PlayerController>().enabled == false) { return; }
         if (!Input.GetKeyDown(KeyCode.Escape)) return;
         if (settingPanel.GetComponent<UIPanelBase>().IsActive())
         {
-            Debug.Log(2);
+            if (Manager.Instance) { Manager.Instance.player.GetComponent<PlayerController>().applySetting(); }
+            
             //Manager.Instance.player.GetComponent<PlayerController>().applySetting();
             menuPanel.OnClick_back();
             return;
@@ -86,14 +99,11 @@ public class UIManager : MonoBehaviour
             Cursor.visible = true;
             menuPanel.Show();
             Cursor.lockState = CursorLockMode.None;
-            Debug.Log(1);
+           
 
         }
         else
-        {
-           
-           
-               Debug.Log(3);
+        {                  
                menuPanel.Hide();
                Cursor.lockState = CursorLockMode.Locked;
                Cursor.visible = false;

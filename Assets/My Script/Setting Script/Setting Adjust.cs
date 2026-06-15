@@ -66,7 +66,7 @@ public class SettingAdjust : MonoBehaviour
             PlayerPrefs.Save();
             //// 轉換成功！
             //return Mathf.Clamp(result, 0f, 0.1f);
-            
+
             //Debug.Log($"成功拿到 float 數值: {result}");
         }
         else
@@ -93,5 +93,7 @@ public class SettingAdjust : MonoBehaviour
     public void SaveValue()
     {
         PlayerPrefs.Save();
+        if (Manager.Instance) 
+        { Manager.Instance.player.GetComponent<PlayerController>().applySetting(); }
     }
 }
