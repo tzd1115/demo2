@@ -161,7 +161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7681289778000960259, guid: 2497756d537df644cad7362602860c70, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -38.3
+      value: -96.3
       objectReference: {fileID: 0}
     - target: {fileID: 7681289778000960259, guid: 2497756d537df644cad7362602860c70, type: 3}
       propertyPath: m_LocalPosition.y
@@ -510,10 +510,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: bad guy cheasing map
       objectReference: {fileID: 0}
-    - target: {fileID: 1128791885459143345, guid: 359ef007b36652e478c4767e65b7a299, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3302315059188085134, guid: 359ef007b36652e478c4767e65b7a299, type: 3}
       propertyPath: m_LocalPosition.x
       value: -110.6
@@ -557,7 +553,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1328663984489741949, guid: 359ef007b36652e478c4767e65b7a299, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 359ef007b36652e478c4767e65b7a299, type: 3}
 --- !u!1001 &4085317665373636247
 PrefabInstance:
@@ -689,6 +688,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6006607347767766812, guid: 77e87945a4ab289419716b076dfbdf9d, type: 3}
+      propertyPath: loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006607347767766812, guid: 77e87945a4ab289419716b076dfbdf9d, type: 3}
+      propertyPath: speed
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6230318013311844607, guid: 77e87945a4ab289419716b076dfbdf9d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -53.6

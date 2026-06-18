@@ -2,14 +2,16 @@ using UnityEngine;
 
 public class WaitToSpawn : MonoBehaviour
 {
+    public MonoBehaviour ScriptWantToActive;
+    public float activeAfterSecond;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
-        StartCoroutine(Manager.Instance.CountDownAndAction(5f, action: () =>
+        StartCoroutine(Manager.Instance.CountDownAndAction(activeAfterSecond, action: () =>
         {
-            Debug.Log("after 3 s");
-            GetComponent<AiAgent>().enabled = true;
+            Debug.Log("after?[]");
+            ScriptWantToActive.enabled = true;
             StopAllCoroutines();
             this.enabled = false;
         }));
