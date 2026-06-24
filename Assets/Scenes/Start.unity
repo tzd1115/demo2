@@ -157,7 +157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5988563072101471758, guid: 2497756d537df644cad7362602860c70, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7681289778000960259, guid: 2497756d537df644cad7362602860c70, type: 3}
       propertyPath: m_LocalPosition.x
@@ -451,7 +451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5988563072101471758, guid: 2497756d537df644cad7362602860c70, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7681289778000960259, guid: 2497756d537df644cad7362602860c70, type: 3}
       propertyPath: m_LocalPosition.x
@@ -509,6 +509,10 @@ PrefabInstance:
     - target: {fileID: 1128791885459143345, guid: 359ef007b36652e478c4767e65b7a299, type: 3}
       propertyPath: m_Name
       value: bad guy cheasing map
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128791885459143345, guid: 359ef007b36652e478c4767e65b7a299, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3302315059188085134, guid: 359ef007b36652e478c4767e65b7a299, type: 3}
       propertyPath: m_LocalPosition.x

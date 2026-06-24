@@ -82,6 +82,14 @@ public class AiAgent : MonoBehaviour
     //    }
     //}
     // ⚠️ 只要涉及 Rigidbody 物理移動，程式碼一定要寫在 FixedUpdate 裡！
+    private void OnEnable()
+    {
+        
+    }
+    private void OnDisable()
+    {
+        
+    }
     void FixedUpdate()
     {
         
@@ -178,8 +186,15 @@ public class AiAgent : MonoBehaviour
 
         // 🚀 核心点 B（双重保险）：将其变为完全不受物理力、重力影响的“运动学”物体
         rb.isKinematic = true;
-       
+        //Manager.Instance.player.GetComponent<Cameraresistence>().enabled = false;
+        //Manager.Instance.player.GetComponent<PlayerController>().enabled = false;
+        Manager.Instance.player.GetComponent<PlayerController>().Catched();
+        Manager.Instance.player.GetComponentInChildren<Camera>().
+        transform.position = point.position;
 
+        Manager.Instance.player.GetComponentInChildren<Camera>().
+        transform.rotation = point.rotation;
+        Manager.Instance.player.GetComponentInChildren<PlayerController>().HideMesh();
     }
     public void Stop()
     {
@@ -201,14 +216,9 @@ public class AiAgent : MonoBehaviour
     }
     void OnYourFace()
     {
-        Manager.Instance.player.GetComponent<PlayerController>().enabled = false;
+       
 
-        Manager.Instance.player.GetComponentInChildren<Camera>().
-        transform.position = point.position;
-
-        Manager.Instance.player.GetComponentInChildren<Camera>().
-        transform.rotation = point.rotation;
-        Manager.Instance.player.GetComponentInChildren<PlayerController>().HideMesh();
+        
         CatchPlayer();
         StartCoroutine(Manager.Instance.CountDownAndAction(2f, action: () =>
         {
@@ -227,4 +237,5 @@ public class AiAgent : MonoBehaviour
         }));
 
     }
+
 }

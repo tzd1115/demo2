@@ -30,6 +30,7 @@ public class Manager : MonoBehaviour
     
     public Action action;
     public GameObject player;
+    public PlayerController plyC;
     private void Awake()
     {
         level = 0;

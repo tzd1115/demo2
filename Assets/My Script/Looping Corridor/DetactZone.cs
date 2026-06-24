@@ -16,6 +16,7 @@ public class DetactZone : MonoBehaviour
     // Start is called before the first frame update
     public GameObject spawnpoint;
     public GameObject spawnpointlv0;
+    GameObject WaitToIns;
     public TextMeshPro level;
     public bool istrue = false;
     public bool walked = false;
@@ -27,25 +28,28 @@ public class DetactZone : MonoBehaviour
 
     // Update is called once per frame
 
-    private void OnTriggerEnter(Collider other)
+    private async void OnTriggerEnter(Collider other)
     {
-       // Debug.Log($"【碰撞触发】触发物体: {other.name} | 挂载节点: {other.transform.parent?.name} | 当前游戏帧: {Time.frameCount}");
+        // Debug.Log($"【碰撞触发】触发物体: {other.name} | 挂载节点: {other.transform.parent?.name} | 当前游戏帧: {Time.frameCount}");
         //Debug.Log(other.name);
         //Destroy(level.gameObject);
+        
         if (other.tag != "Player") return;
        
 
         if (Manager.Instance.is_exit == 0)
         {
             GoIn();
+            WaitToIns = await LoadScene();
             return;     
         }
         else
         {
-            if (!GoOut()) return; 
+            if (!GoOut()) return;
+            Spawn(WaitToIns);
         }
 
-        _=generateAsync();
+       
 
     }
     private void OnTriggerExit(Collider other)
@@ -73,7 +77,7 @@ public class DetactZone : MonoBehaviour
     {
         foreach (GameObject scene in Manager.Instance.fordest)
         {
-            if (scene != transform.parent.gameObject)
+            if (scene != transform.root.gameObject)
             {
                 Destroy(scene);
             }
@@ -115,6 +119,8 @@ public class DetactZone : MonoBehaviour
         }
         return true;
     }
+
+
     void generate()
     {
         int rt = UnityEngine.Random.Range(0, 5);
@@ -149,7 +155,7 @@ public class DetactZone : MonoBehaviour
 
         Debug.Log("go out");
     }
-    async Task generateAsync()
+    async Task<GameObject> LoadScene()
     {
         int rt = UnityEngine.Random.Range(0, 5);
 
@@ -181,27 +187,39 @@ public class DetactZone : MonoBehaviour
 
         while (!loadrequestmap.isDone)
         {
+            // 🎯 核心：直接讀取 progress 屬性
+            float progress = loadrequestmap.progress;
+
+            // 1. 如果你想在控制台看進度（乘上 100 變成百分比）
+            Debug.Log($"地圖載入進度: {Mathf.RoundToInt(progress * 100)}%");
+
+            // 2. 如果你有進度條 UI，也可以在這裡直接更新它
+            // myProgressBar.value = progress; 
+            // myProgressText.text = $"{Mathf.RoundToInt(progress * 100)}%";
+
             await Task.Yield();
         }
 
-        GameObject go = loadrequestmap.asset as GameObject;
+        return loadrequestmap.asset as GameObject;
 
-        var instantiateOperation = InstantiateAsync(go
-        , spawnpoint.transform.position, spawnpoint.transform.rotation);
-        
-        while (!instantiateOperation.isDone)
-        {
-            await Task.Yield();
-        }
-        Manager.Instance.fordest[1] = instantiateOperation.Result[0];
-
-        Debug.Log("go out");
     }
 
     void Lv0generate()
     {
         Manager.Instance.fordest[1] = Instantiate(Resources.Load("prefeb/noting map").
                                       GameObject(), spawnpointlv0.transform.position,spawnpointlv0.transform.rotation);
+
         Debug.Log("loop");
+    }
+    async void Spawn(GameObject obj)
+    {
+        var instantiateOperation = InstantiateAsync(obj
+       , spawnpoint.transform.position, spawnpoint.transform.rotation);
+
+        while (!instantiateOperation.isDone)
+        {
+            await Task.Yield();
+        }
+        Manager.Instance.fordest[1] = instantiateOperation.Result[0];
     }
 }
