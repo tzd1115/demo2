@@ -8,7 +8,7 @@ public class FinishGameScene : GameSceneBaseScript
     protected override void Start()
     {
         base.Start();
-        UIManager.Instance.finishPanel.Show();
+        UIManager.Instance.finishPanel.Show(null);
         GameObject.Destroy(this.gameObject);
     }
 

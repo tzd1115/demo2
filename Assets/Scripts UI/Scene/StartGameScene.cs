@@ -9,7 +9,7 @@ public class StartGameScene : GameSceneBaseScript
     protected override void Start()
     {
         base.Start();
-        UIManager.Instance.menuPanel.Show();
+        UIManager.Instance.menuPanel.Show(null);
         GameObject.Destroy(this.gameObject);
     }
 }

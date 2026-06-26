@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class UIPanelBase : MonoBehaviour
 {
-    public virtual void Show()
+   public  MenuPanel panel;
+    public virtual void Show(MenuPanel p)
     {
         this.gameObject.SetActive(true);
+        panel = p;
     }
 
     public virtual void Hide()

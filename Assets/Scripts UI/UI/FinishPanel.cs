@@ -8,9 +8,9 @@ public class FinishPanel : UIPanelBase
     public Button finishButton = null;
 
 
-    public override void Show()
+    public override void Show(MenuPanel p)
     {
-        base.Show();
+        base.Show(null);
         //«ö¶s©µ¿ð¥X²{
         StartCoroutine(ShowFinishButtonWithDelay());
     }

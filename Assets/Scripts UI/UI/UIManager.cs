@@ -7,7 +7,19 @@ public class UIManager : MonoBehaviour
 {
     //³æ¨Ò¼Ò¦¡ (Singleton Pattern)
     private static UIManager mInstance = null;
-   
+    private void Awake()
+    {
+        if (mInstance == null)
+        {
+            mInstance = this;
+            // 如果切換場景時不想讓 GameManager 消失，可以取消下一行的註釋
+            // DontDestroyOnLoad(gameObject); 
+        }
+        else
+        {
+            Destroy(gameObject); // 如果有重複的就刪掉
+        }
+    }
     public static UIManager Instance
     {
         get
@@ -32,6 +44,8 @@ public class UIManager : MonoBehaviour
                     Debug.LogError("UIManager Prefab is NULL!");
                 }
             }
+           
+            
             return mInstance;
         }
     }
@@ -50,12 +64,13 @@ public class UIManager : MonoBehaviour
     public FinishPanel finishPanel;
     public GameObject tips;
     public GameObject settingPanel;
-    
+    public MenuPanel pausePl;
+    Action CloseCurrentPanel;
     private void Start()
     {
         
         Init();
-        if (!Manager.Instance) { menuPanel.Show(); }
+        if (!Manager.Instance) { menuPanel.Show(null); }
     }
     public void Init()
     {
@@ -83,30 +98,61 @@ public class UIManager : MonoBehaviour
     }
     void WaitForPause()
     {
-        if (!Manager.Instance || Manager.Instance.player.GetComponent<PlayerController>().enabled == false) { return; }
+        if (loadingPanel.IsActive()) { return; }
+        
         if (!Input.GetKeyDown(KeyCode.Escape)) return;
         if (settingPanel.GetComponent<UIPanelBase>().IsActive())
         {
-            if (Manager.Instance) { Manager.Instance.player.GetComponent<PlayerController>().applySetting(); }
             
+            if (Manager.Instance) {
+                Manager.Instance.player.GetComponent<PlayerController>()
+                    .applySetting();
+            }
+            Debug.Log("k");
+            backOperation(settingPanel.GetComponent<UIPanelBase>());
             //Manager.Instance.player.GetComponent<PlayerController>().applySetting();
-            menuPanel.OnClick_back();
+
             return;
         }
-        if (!menuPanel.IsActive())
+        if (!Manager.Instance || Manager.Instance.player.GetComponent<PlayerController>().enabled == false) { return; }
+        if (!pausePl.IsActive())
         {
 
-            Cursor.visible = true;
-            menuPanel.Show();
-            Cursor.lockState = CursorLockMode.None;
-           
-
+            PauseOperation();
         }
         else
-        {                  
-               menuPanel.Hide();
-               Cursor.lockState = CursorLockMode.Locked;
-               Cursor.visible = false;
+        {
+            CancelPauseOperation();
         }
     }
+    void PauseOperation()
+    {
+        Time.timeScale = 0.0f;
+
+        Cursor.visible = true;
+
+        pausePl.Show(null);
+        Cursor.lockState = CursorLockMode.None;
+       
+    }
+    void CancelPauseOperation()
+    {
+        Time.timeScale = 1.0f;
+        pausePl.Hide();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+    public void SettingBackButton()
+    {
+        backOperation(settingPanel.GetComponent<UIPanelBase>());
+    }
+    public void backOperation(UIPanelBase p)
+    {
+        p.Hide();
+        p.panel.Show(null);
+        if (Manager.Instance) { Manager.Instance.player.GetComponent<PlayerController>().applySetting(); }
+        PlayerPrefs.Save();
+
+    }
+
 }

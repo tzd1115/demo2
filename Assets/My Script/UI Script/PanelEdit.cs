@@ -11,4 +11,5 @@ public class PanelEdit : MonoBehaviour
     {
         word.text = newWord;
     }
+   
 }

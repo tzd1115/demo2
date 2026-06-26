@@ -28,7 +28,7 @@ public class LoadingPanel : UIPanelBase
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-        this.Show();
+        this.Show(null);
 
         // ²H¤J®ÄªG
         CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
