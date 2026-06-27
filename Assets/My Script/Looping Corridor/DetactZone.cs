@@ -40,12 +40,13 @@ public class DetactZone : MonoBehaviour
         if (Manager.Instance.is_exit == 0)
         {
             GoIn();
-            WaitToIns = await LoadScene();
+           
             return;     
         }
         else
         {
             if (!GoOut()) return;
+            WaitToIns = await LoadScene();
             Spawn(WaitToIns);
         }
 
@@ -91,7 +92,7 @@ public class DetactZone : MonoBehaviour
     {
 
         Manager.Instance.is_exit = 0;
-        Manager.Instance.fordest[0] = transform.parent.gameObject;
+        Manager.Instance.fordest[0] = transform.root.gameObject;
         if (walked)
         {
             Manager.Instance.level = 0;
