@@ -16,7 +16,7 @@ public class DetactZone : MonoBehaviour
     // Start is called before the first frame update
     public GameObject spawnpoint;
     public GameObject spawnpointlv0;
-    GameObject WaitToIns;
+    
     public TextMeshPro level;
     public bool istrue = false;
     public bool walked = false;
@@ -40,14 +40,18 @@ public class DetactZone : MonoBehaviour
         if (Manager.Instance.is_exit == 0)
         {
             GoIn();
-           
+
+            Manager.Instance.ToIns = await LoadScene();
+
             return;     
         }
         else
         {
             if (!GoOut()) return;
-            WaitToIns = await LoadScene();
-            Spawn(WaitToIns);
+            
+            Spawn(Manager.Instance.ToIns);
+
+            return;
         }
 
        
@@ -86,6 +90,7 @@ public class DetactZone : MonoBehaviour
         Manager.Instance.is_exit = 1;
         Debug.Log("go in");
         level.gameObject.SetActive(false);
+        
     }
 
     bool GoOut()
@@ -205,10 +210,34 @@ public class DetactZone : MonoBehaviour
 
     }
 
-    void Lv0generate()
+    async void Lv0generate()
     {
-        Manager.Instance.fordest[1] = Instantiate(Resources.Load("prefeb/noting map").
-                                      GameObject(), spawnpointlv0.transform.position,spawnpointlv0.transform.rotation);
+        //Manager.Instance.fordest[1] = Instantiate(Resources.Load("prefeb/noting map").
+        //                              GameObject(), spawnpointlv0.transform.position,spawnpointlv0.transform.rotation);
+        ResourceRequest loadrequestmap = Resources.LoadAsync<GameObject>("prefeb/noting map");
+
+        while (!loadrequestmap.isDone)
+        {
+            // 🎯 核心：直接讀取 progress 屬性
+            float progress = loadrequestmap.progress;
+
+            // 1. 如果你想在控制台看進度（乘上 100 變成百分比）
+            Debug.Log($"地圖載入進度: {Mathf.RoundToInt(progress * 100)}%");
+
+            // 2. 如果你有進度條 UI，也可以在這裡直接更新它
+            // myProgressBar.value = progress; 
+            // myProgressText.text = $"{Mathf.RoundToInt(progress * 100)}%";
+            
+            await Task.Yield();
+        }
+        var instantiateOperation = InstantiateAsync(loadrequestmap.asset as GameObject
+            , spawnpointlv0.transform.position, spawnpointlv0.transform.rotation);
+
+        while (!instantiateOperation.isDone)
+        {
+            await Task.Yield();
+        }
+        Manager.Instance.fordest[1] = instantiateOperation.Result[0];
 
         Debug.Log("loop");
     }

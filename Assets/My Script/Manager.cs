@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+//using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -22,16 +23,22 @@ public class Manager : MonoBehaviour
         }
     }
     public Action <int>OnlvChange;
+    
+
     public int is_exit = 0;
+   
+    
     public GameObject []fordest;
     
     public GameObject firstdest;
     public GameObject spawnpoint;
-    
-    public Action action;
+
+    public GameObject ToIns;
+
+
     public GameObject player;
     public PlayerController plyC;
-    private void Awake()
+    private async void Awake()
     {
         level = 0;
         //fordest = new GameObject[3];
@@ -56,14 +63,17 @@ public class Manager : MonoBehaviour
 
             //);
             //action?.Invoke();
+            ResourceRequest rr = Resources.LoadAsync<GameObject>("prefeb/noting map");
+            await rr;
 
-            fordest[1] = Instantiate(
-
-                Resources.Load("prefeb/noting map").GameObject(),
-                spawnpoint.transform.position,
-                spawnpoint.transform.rotation
-
+            GameObject prefab = rr.asset as GameObject;
+             
+            var instances = await InstantiateAsync(
+            prefab,
+            spawnpoint.transform.position,
+            spawnpoint.transform.rotation
             );
+            fordest[1] = instances[0];
         }
        
         
